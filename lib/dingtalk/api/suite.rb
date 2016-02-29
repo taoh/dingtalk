@@ -29,7 +29,7 @@ module Dingtalk
           suite_secret: @suite_secret,
           suite_ticket: suite_ticket
         }
-        http_post(request_url('get_suite_token'), params)
+        http_post('get_suite_token', params)
         # TODO check response values
         redis.set(SUITE_ACCESS_TOKEN, res['suite_access_token'])
         redis.expire(SUITE_ACCESS_TOKEN, EXPIRATION)
@@ -41,6 +41,10 @@ module Dingtalk
       end
 
       private
+        def default_params
+          {}
+        end
+
         def base_url
           'service'
         end
