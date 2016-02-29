@@ -44,8 +44,6 @@ module Dingtalk
 
         def redis
           Dingtalk.dingtalk_redis
-          # debug
-          Redis.new
         end
     end
   end
