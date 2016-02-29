@@ -17,17 +17,20 @@ module Dingtalk
           { access_token: access_token }
         end
 
-        def payload(params = {})
-          [ request_url(url), default_params.merge(params).to_json, { content_type: :json } ]
+        def payload(url, params)
+          [ request_url(url), {
+            params: default_params.merge(params).to_json,
+            content_type: :json
+          }]
         end
 
         def http_get(url, params = {})
-          res = RestClient.get(payload(params))
+          res = RestClient.get(*payload(url, params))
           JSON.parse(res)
         end
 
         def http_post(url, params = {})
-          res = RestClient.post(payload(params))
+          res = RestClient.post(*payload(url, params))
           JSON.parse(res)
         end
 
