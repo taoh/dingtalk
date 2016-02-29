@@ -13,7 +13,7 @@ module Dingtalk
           JSON.parse(res)
         end
 
-        def http_post
+        def http_post(url, params = {})
           res = RestClient.post(request_url(url), params.to_json, content_type: :json)
           JSON.parse(res)
         end
@@ -24,6 +24,12 @@ module Dingtalk
 
         def request_url(url)
           "#{ENDPOINT}/#{base_url}/#{url}"
+        end
+
+        def redis
+          Dingtalk.dingtalk_redis
+          # debug
+          Redis.new
         end
     end
   end
