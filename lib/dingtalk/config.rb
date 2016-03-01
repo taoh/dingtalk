@@ -10,9 +10,17 @@ module Dingtalk
       return nil unless self.config
       @redis ||= config.redis
     end
+
+    def suite_key
+      @suite_key ||= config.suite_key
+    end
+
+    def suite_secret
+      @suite_secret ||= config.suite_secret
+    end
   end
 
   class Config
-    attr_accessor :redis
+    attr_accessor :redis, :redis_options, :suite_key, :suite_secret
   end
 end

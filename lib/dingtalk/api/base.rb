@@ -4,12 +4,17 @@ module Dingtalk
       attr_accessor :corp_id
       ACCESS_TOKEN = "access_token"
 
-      def initialize(corp_id = nil)
+      def initialize(corp_id = nil, permanent_code = nil)
         @corp_id = corp_id
+        @permanent_code = permanent_code
       end
 
       def access_token
-        "#{corp_id}_#{ACCESS_TOKEN}"
+        redis.get("#{corp_id}_#{ACCESS_TOKEN}") || set_access_token
+      end
+
+      def set_access_token
+        Suite.new.set_corp_access_token(@corp_id, @permanent_code)
       end
 
       private

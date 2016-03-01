@@ -5,10 +5,9 @@ module Dingtalk
       SUITE_ACCESS_TOKEN = "suite_access_token"
       EXPIRATION = 7200
 
-      def initialize(suite_key, suite_secret)
-        # put them into config file?
-        @suite_key = suite_key
-        @suite_secret = suite_secret
+      def initialize
+        @suite_key = Dingtalk.suite_key
+        @suite_secret = Dingtalk.suite_secret
       end
 
       def get_permanent_code(tmp_auth_code)
@@ -29,11 +28,23 @@ module Dingtalk
           suite_secret: @suite_secret,
           suite_ticket: suite_ticket
         }
-        http_post('get_suite_token', params)
-        # TODO check response values
+        res = http_post('get_suite_token', params)
+        # TODO globally check response values
         redis.set(SUITE_ACCESS_TOKEN, res['suite_access_token'])
         redis.expire(SUITE_ACCESS_TOKEN, EXPIRATION)
         redis.get(SUITE_ACCESS_TOKEN)
+      end
+
+      def set_corp_access_token(corp_id, permanent_code)
+        params = {
+          suite_access_token: suite_access_token,
+          permanent_code: permanent_code,
+          auth_corpid: corp_id
+        }
+        res = http_post('get_corp_token', params)
+        redis.set("#{corp_id}_#{ACCESS_TOKEN}", res['access_token'])
+        redis.expire("#{corp_id}_#{ACCESS_TOKEN}", EXPIRATION)
+        redis.get("#{corp_id}_#{ACCESS_TOKEN}")
       end
 
       def suite_ticket
