@@ -3,6 +3,7 @@ require "dingtalk/config"
 require "dingtalk/pkcs7_encoder"
 require "dingtalk/prpcrypt"
 require "dingtalk/api"
+require "dingtalk/client"
 
 require 'redis'
 require "rest-client"
