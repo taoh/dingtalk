@@ -12,9 +12,21 @@ module Dingtalk
       JSON.parse(content)
     end
 
-    def signature(return_str)
+    def response_json(return_str)
+      {
+        msg_signature: signature(return_str),
+        encrypt: encrypt(return_str),
+        timeStamp: timestamp,
+        nonce: nonce
+      }
+    end
+
+    def encrypt(return_str)
       encrypt = Dingtalk::Prpcrypt.encrypt(aes_key, return_str, Dingtalk.suite_key)
-      sort_params = [suite.suite_access_token, timestamp, nonce, encrypt].sort.join
+    end
+
+    def signature(return_str)
+      sort_params = [suite.suite_access_token, timestamp, nonce, encrypt(return_str)].sort.join
       Digest::SHA1.hexdigest(sort_params)
     end
 
