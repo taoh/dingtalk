@@ -47,6 +47,26 @@ module Dingtalk
         redis.get("#{corp_id}_#{ACCESS_TOKEN}")
       end
 
+      def activate_suite(corp_id, permanent_code)
+        params = {
+          suite_key: @suite_key,
+          suite_access_token: suite_access_token,
+          permanent_code: permanent_code,
+          auth_corpid: corp_id
+        }
+        http_post('activate_suite', params)
+      end
+
+      def get_auth_info(corp_id, permanent_code)
+        params = {
+          suite_key: @suite_key,
+          suite_access_token: suite_access_token,
+          permanent_code: permanent_code,
+          auth_corpid: corp_id
+        }
+        http_post('get_auth_info', params)
+      end
+
       def suite_ticket
         redis.get(SUITE_TICKET)
       end
