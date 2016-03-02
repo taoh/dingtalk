@@ -18,9 +18,13 @@ module Dingtalk
     def suite_secret
       @suite_secret ||= config.suite_secret
     end
+
+    def suite_aes_key
+      @suite_aes_key ||= config.suite_aes_key
+    end
   end
 
   class Config
-    attr_accessor :redis, :redis_options, :suite_key, :suite_secret
+    attr_accessor :redis, :redis_options, :suite_key, :suite_secret, :suite_aes_key
   end
 end
