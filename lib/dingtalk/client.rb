@@ -34,6 +34,10 @@ module Dingtalk
       Api::Department.new(@corp_id)
     end
 
+    def user
+      Api::User.new(@corp_id)
+    end
+
     private
       def aes_key
         Base64.decode64(Dingtalk.suite_aes_key + '=')
