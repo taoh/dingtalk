@@ -3,6 +3,7 @@ module Dingtalk
     class Base
       attr_accessor :corp_id
       ACCESS_TOKEN = "access_token"
+      JS_TICKET = "js_ticket"
 
       def initialize(corp_id = nil, permanent_code = nil)
         @corp_id = corp_id
@@ -15,6 +16,14 @@ module Dingtalk
 
       def set_access_token
         Suite.new.set_corp_access_token(@corp_id, @permanent_code)
+      end
+
+      def js_ticket
+        redis.get("#{corp_id}_#{JS_TICKET}") || set_js_ticket
+      end
+
+      def set_js_ticket
+        http_get('get_jsapi_ticket')
       end
 
       private

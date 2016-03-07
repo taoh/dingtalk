@@ -26,6 +26,10 @@ module Dingtalk
       Digest::SHA1.hexdigest(sort_params)
     end
 
+    def base
+      Api::Base.new(@corp_id)
+    end
+
     def suite
       Api::Suite.new
     end
