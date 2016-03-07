@@ -23,7 +23,11 @@ module Dingtalk
       end
 
       def set_js_ticket
-        http_get('get_jsapi_ticket')
+        key = "#{corp_id}_#{JS_TICKET}"
+        res = http_get('get_jsapi_ticket')
+        redis.set(key, res['suite_access_token'])
+        redis.expire(key, 7200)
+        redis.get(key)
       end
 
       private

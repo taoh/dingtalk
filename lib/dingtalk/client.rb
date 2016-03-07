@@ -31,7 +31,7 @@ module Dingtalk
       signature = Digest::SHA1.hexdigest(sort_params)
       {
         corp_id: @corp_id,
-        timeStamp: timeStamp,
+        timeStamp: timestamp,
         nonceStr: nonce,
         signature: signature
       }
