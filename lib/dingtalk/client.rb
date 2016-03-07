@@ -26,6 +26,17 @@ module Dingtalk
       Digest::SHA1.hexdigest(sort_params)
     end
 
+    def jssign_package(request_url)
+      sort_params = [base.js_ticket, timestamp, nonce, request_url].sort.join
+      signature = Digest::SHA1.hexdigest(sort_params)
+      {
+        corp_id: @corp_id,
+        timeStamp: timeStamp,
+        nonceStr: nonce,
+        signature: signature
+      }
+    end
+
     def base
       Api::Base.new(@corp_id)
     end
