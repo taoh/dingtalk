@@ -22,7 +22,7 @@ module Dingtalk
     end
 
     def signature(return_str)
-      sort_params = [suite.suite_access_token, timestamp, nonce, encrypt(return_str)].sort.join
+      sort_params = [Dingtalk.suite_token, timestamp, nonce, encrypt(return_str)].sort.join
       Digest::SHA1.hexdigest(sort_params)
     end
 

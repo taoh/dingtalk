@@ -22,9 +22,13 @@ module Dingtalk
     def suite_aes_key
       @suite_aes_key ||= config.suite_aes_key
     end
+
+    def suite_token
+      @suite_token ||= config.suite_token
+    end
   end
 
   class Config
-    attr_accessor :redis, :redis_options, :suite_key, :suite_secret, :suite_aes_key
+    attr_accessor :redis, :redis_options, :suite_key, :suite_secret, :suite_aes_key, :suite_token
   end
 end
