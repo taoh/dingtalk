@@ -1,6 +1,7 @@
 module Dingtalk
   class Client
     attr_accessor :corp_id
+    attr_accessor :permanent_code
 
     def decrypt(echo_str)
       content, status = Dingtalk::Prpcrypt.decrypt(aes_key, echo_str, Dingtalk.suite_key)
@@ -43,7 +44,7 @@ module Dingtalk
     end
 
     def base
-      Api::Base.new(@corp_id)
+      Api::Base.new(@corp_id, @permanent_code)
     end
 
     def suite
