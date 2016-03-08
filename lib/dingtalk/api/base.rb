@@ -2,6 +2,7 @@ module Dingtalk
   module Api
     class Base
       attr_accessor :corp_id
+      attr_accessor :permanent_code
       ACCESS_TOKEN = "access_token"
       JS_TICKET = "js_ticket"
 
@@ -24,9 +25,9 @@ module Dingtalk
 
       def set_js_ticket
         key = "#{corp_id}_#{JS_TICKET}"
-        res = http_get('get_jsapi_ticket')
-        redis.set(key, res['suite_access_token'])
-        redis.expire(key, 7200)
+        res = http_get("get_jsapi_ticket?access_token=#{access_token}")
+        redis.set(key, res['ticket'])
+        redis.expire(key, res['expires_in'])
         redis.get(key)
       end
 
@@ -43,8 +44,9 @@ module Dingtalk
         end
 
         def http_get(url, params = {})
-          p = default_params.merge(params)
-          res = RestClient.get(request_url(url), p.to_json, content_type: :json)
+          res = RestClient.get(request_url(url))
+          #p = default_params.merge(params)
+          #res = RestClient.get(request_url(url), p.to_json, content_type: :json)
           JSON.parse(res)
         end
 

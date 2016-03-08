@@ -36,11 +36,10 @@ module Dingtalk
 
       def set_corp_access_token(corp_id, permanent_code)
         params = {
-          suite_access_token: suite_access_token,
           permanent_code: permanent_code,
           auth_corpid: corp_id
         }
-        res = http_post('get_corp_token', params)
+        res = http_post("get_corp_token?suite_access_token=#{suite_access_token}", params)
         redis.set("#{corp_id}_#{ACCESS_TOKEN}", res['access_token'])
         redis.expire("#{corp_id}_#{ACCESS_TOKEN}", EXPIRATION)
         redis.get("#{corp_id}_#{ACCESS_TOKEN}")
