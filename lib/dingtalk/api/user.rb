@@ -6,7 +6,7 @@ module Dingtalk
       end
 
       def get(userid)
-        http_Get('get', { userid: userid })
+        http_get('get', { userid: userid })
       end
 
       private
