@@ -12,10 +12,9 @@ module Dingtalk
 
       def get_permanent_code(tmp_auth_code)
         params = {
-          suite_access_token: suite_access_token,
           tmp_auth_code: tmp_auth_code
         }
-        http_post('get_permanent_code', params)
+        http_post("get_permanent_code?suite_access_token=#{suite_access_token}", params)
       end
 
       def suite_access_token

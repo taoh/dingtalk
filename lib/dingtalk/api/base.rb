@@ -43,12 +43,14 @@ module Dingtalk
         end
 
         def http_get(url, params = {})
-          res = RestClient.get(*payload(url, params))
+          p = default_params.merge(params)
+          res = RestClient.get(request_url(url), p.to_json, content_type: :json)
           JSON.parse(res)
         end
 
         def http_post(url, params = {})
-          res = RestClient.post(*payload(url, params))
+          p = default_params.merge(params)
+          res = RestClient.post(request_url(url), p.to_json, content_type: :json)
           JSON.parse(res)
         end
 
