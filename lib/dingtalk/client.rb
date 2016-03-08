@@ -9,11 +9,13 @@ module Dingtalk
     end
 
     def response_json(return_str)
+      the_timestamp = timestamp
+      the_nonce = nonce
       {
-        msg_signature: signature(return_str),
+        msg_signature: signature(return_str, the_timestamp, the_nonce),
         encrypt: encrypt(return_str),
-        timeStamp: timestamp,
-        nonce: nonce
+        timeStamp: the_timestamp,
+        nonce: the_nonce
       }
     end
 
@@ -21,7 +23,7 @@ module Dingtalk
       encrypt = Dingtalk::Prpcrypt.encrypt(aes_key, return_str, Dingtalk.suite_key)
     end
 
-    def signature(return_str)
+    def signature(return_str, timestamp, nonce)
       sort_params = [Dingtalk.suite_token, timestamp, nonce, encrypt(return_str)].sort.join
       Digest::SHA1.hexdigest(sort_params)
     end
