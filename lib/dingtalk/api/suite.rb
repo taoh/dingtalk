@@ -15,7 +15,7 @@ module Dingtalk
           suite_access_token: suite_access_token,
           tmp_auth_code: tmp_auth_code
         }
-        http_get('get_permanent_code', params)
+        http_post('get_permanent_code', params)
       end
 
       def suite_access_token
