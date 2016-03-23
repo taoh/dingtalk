@@ -1,7 +1,7 @@
 module Dingtalk
   module Api
     class Message < Base
-      def send(params)
+      def send_with(params)
         http_post('send', params)
       end
 
