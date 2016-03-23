@@ -18,7 +18,7 @@ module Dingtalk
       end
 
       def suite_access_token
-        redis.get(SUITE_ACCESS_TOKEN).to_s.empty? || set_suite_access_token
+        redis.get(SUITE_ACCESS_TOKEN) || set_suite_access_token
       end
 
       def set_suite_access_token

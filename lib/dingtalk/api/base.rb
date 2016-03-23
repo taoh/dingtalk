@@ -12,7 +12,7 @@ module Dingtalk
       end
 
       def access_token
-        redis.get("#{corp_id}_#{ACCESS_TOKEN}").to_s.empty? || set_access_token
+        redis.get("#{corp_id}_#{ACCESS_TOKEN}") || set_access_token
       end
 
       def set_access_token
@@ -20,7 +20,7 @@ module Dingtalk
       end
 
       def js_ticket
-        redis.get("#{corp_id}_#{JS_TICKET}").to_s.empty? || set_js_ticket
+        redis.get("#{corp_id}_#{JS_TICKET}") || set_js_ticket
       end
 
       def set_js_ticket
