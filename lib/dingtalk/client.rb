@@ -33,7 +33,7 @@ module Dingtalk
     def jssign_package(request_url)
       the_timestamp = timestamp
       the_nonce = nonce
-      str = "jsapi_ticket=#{base.js_ticket}&noncestr=#{the_nonce}&timestamp=#{the_timestamp}&url=#{request_url}"
+      str = "jsapi_ticket=#{base.js_ticket}&noncestr=#{the_nonce}&timestamp=#{the_timestamp}&url=#{CGI.unescape(request_url)}"
       signature = Digest::SHA1.hexdigest(str)
       {
         corp_id: @corp_id,
