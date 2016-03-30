@@ -12,7 +12,8 @@ module Dingtalk
       end
 
       def access_token
-        redis.get("#{corp_id}_#{ACCESS_TOKEN}") || set_access_token
+        token = redis.get("#{corp_id}_#{ACCESS_TOKEN}")
+        token.to_s.empty? ? set_access_token : token
       end
 
       def set_access_token
@@ -20,7 +21,8 @@ module Dingtalk
       end
 
       def js_ticket
-        redis.get("#{corp_id}_#{JS_TICKET}") || set_js_ticket
+        ticket = redis.get("#{corp_id}_#{JS_TICKET}")
+        ticket.to_s.empty? ? set_js_ticket : ticket
       end
 
       def set_js_ticket
@@ -45,8 +47,6 @@ module Dingtalk
 
         def http_get(url, params = {})
           res = RestClient.get(request_url(url))
-          #p = default_params.merge(params)
-          #res = RestClient.get(request_url(url), p.to_json, content_type: :json)
           JSON.parse(res)
         end
 
