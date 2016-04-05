@@ -52,15 +52,15 @@ module Dingtalk
     end
 
     def department
-      Api::Department.new(@corp_id)
+      Api::Department.new(@corp_id, @permanent_code)
     end
 
     def user
-      Api::User.new(@corp_id)
+      Api::User.new(@corp_id, @permanent_code)
     end
 
     def message
-      Api::Message.new(@corp_id)
+      Api::Message.new(@corp_id, @permanent_code)
     end
 
     private
