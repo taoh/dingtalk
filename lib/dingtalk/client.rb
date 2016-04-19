@@ -63,6 +63,10 @@ module Dingtalk
       Api::Message.new(@corp_id, @permanent_code)
     end
 
+    def micro_app
+      Api::MicroApp.new(@corp_id, @permanent_code)
+    end
+
     private
       def aes_key
         Base64.decode64(Dingtalk.suite_aes_key + '=')
