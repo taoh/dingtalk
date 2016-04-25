@@ -9,6 +9,10 @@ module Dingtalk
         http_get("get?access_token=#{access_token}&userid=#{userid}")
       end
 
+      def get_by_mobile(mobile)
+        http_get("get?access_token=#{access_token}&mobile=#{mobile}")
+      end
+
       private
         def base_url
           'user'
