@@ -10,7 +10,7 @@ module Dingtalk
       end
 
       def get_by_mobile(mobile)
-        http_get("get?access_token=#{access_token}&mobile=#{mobile}")
+        http_get("get_by_mobile?access_token=#{access_token}&mobile=#{mobile}")
       end
 
       private
