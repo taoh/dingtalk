@@ -14,7 +14,7 @@ module Dingtalk
       end
 
       def create(name, mobile, department = [1])
-        parmas = {
+        params = {
           name: name,
           mobile: mobile,
           department: department
