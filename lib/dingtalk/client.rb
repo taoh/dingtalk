@@ -31,6 +31,8 @@ module Dingtalk
     end
 
     def jssign_package(request_url)
+      return nil unless @corp_id
+
       the_timestamp = timestamp
       the_nonce = nonce
       str = "jsapi_ticket=#{base.js_ticket}&noncestr=#{the_nonce}&timestamp=#{the_timestamp}&url=#{CGI.unescape(request_url)}"
