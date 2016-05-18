@@ -38,6 +38,8 @@ module Dingtalk
       str = "jsapi_ticket=#{base.js_ticket}&noncestr=#{the_nonce}&timestamp=#{the_timestamp}&url=#{CGI.unescape(request_url)}"
       signature = Digest::SHA1.hexdigest(str)
       {
+        js_ticket: base.js_ticket,
+        request_url: request_url,
         corp_id: @corp_id,
         timeStamp: the_timestamp,
         nonceStr: the_nonce,
