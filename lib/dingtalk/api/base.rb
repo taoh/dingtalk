@@ -1,32 +1,29 @@
 module Dingtalk
   module Api
     class Base
-      attr_accessor :corp_id
-      attr_accessor :permanent_code
       ACCESS_TOKEN = "access_token"
       JS_TICKET = "js_ticket"
 
-      def initialize(corp_id = nil, permanent_code = nil)
-        @corp_id = corp_id
-        @permanent_code = permanent_code
+      def initialize(corp = nil)
+        @corp = corp
       end
 
       def access_token
-        token = redis.get("#{corp_id}_#{ACCESS_TOKEN}")
+        token = redis.get("#{@corp.corp_id}_#{ACCESS_TOKEN}")
         token.to_s.empty? ? set_access_token : token
       end
 
       def set_access_token
-        Suite.new.set_corp_access_token(@corp_id, @permanent_code)
+        Suite.new.set_corp_access_token(@corp.corp_id, @corp.permanent_code)
       end
 
       def js_ticket
-        ticket = redis.get("#{corp_id}_#{JS_TICKET}")
+        ticket = redis.get("#{@corp.corp_id}_#{JS_TICKET}")
         ticket.to_s.empty? ? set_js_ticket : ticket
       end
 
       def set_js_ticket
-        key = "#{corp_id}_#{JS_TICKET}"
+        key = "#{@corp.corp_id}_#{JS_TICKET}"
         res = http_get("get_jsapi_ticket?access_token=#{access_token}")
         redis.set(key, res['ticket'])
         redis.expire(key, res['expires_in'])

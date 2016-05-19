@@ -1,7 +1,8 @@
 module Dingtalk
   class Client
-    attr_accessor :corp_id
-    attr_accessor :permanent_code
+    def initialize(corp = nil)
+      @corp = corp
+    end
 
     def decrypt(echo_str)
       content, status = Dingtalk::Prpcrypt.decrypt(aes_key, echo_str, Dingtalk.suite_key)
@@ -31,7 +32,7 @@ module Dingtalk
     end
 
     def jssign_package(request_url)
-      return nil unless @corp_id
+      return nil unless @corp
 
       the_timestamp = timestamp
       the_nonce = nonce
@@ -40,7 +41,7 @@ module Dingtalk
       {
         js_ticket: base.js_ticket,
         request_url: request_url,
-        corp_id: @corp_id,
+        corp_id: @corp.corp_id,
         timeStamp: the_timestamp,
         nonceStr: the_nonce,
         signature: signature
@@ -48,7 +49,7 @@ module Dingtalk
     end
 
     def base
-      Api::Base.new(@corp_id, @permanent_code)
+      Api::Base.new(@corp)
     end
 
     def suite
@@ -56,19 +57,19 @@ module Dingtalk
     end
 
     def department
-      Api::Department.new(@corp_id, @permanent_code)
+      Api::Department.new(@corp)
     end
 
     def user
-      Api::User.new(@corp_id, @permanent_code)
+      Api::User.new(@corp)
     end
 
     def message
-      Api::Message.new(@corp_id, @permanent_code)
+      Api::Message.new(@corp)
     end
 
     def micro_app
-      Api::MicroApp.new(@corp_id, @permanent_code)
+      Api::MicroApp.new(@corp)
     end
 
     private
