@@ -16,7 +16,7 @@ module Dingtalk
       def set_access_token
         res = http_get("gettoken?appid=#{@app_id}&appsecret=#{@app_secret}")
         redis.set(ACCESS_TOKEN, res['access_token'])
-        redis.expire(key, 7200)
+        redis.expire(ACCESS_TOKEN, 7200)
         redis.get(ACCESS_TOKEN)
       end
 
