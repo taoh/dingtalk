@@ -64,6 +64,10 @@ module Dingtalk
       Api::User.new(@corp)
     end
 
+    def Attendance
+      Api::Attendance.new(@corp)
+    end
+
     def message
       Api::Message.new(@corp)
     end
