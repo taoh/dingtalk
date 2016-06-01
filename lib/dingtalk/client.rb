@@ -56,6 +56,10 @@ module Dingtalk
       Api::Suite.new
     end
 
+    def sns
+      Api::Sns.new
+    end
+
     def department
       Api::Department.new(@corp)
     end
