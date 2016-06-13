@@ -22,6 +22,10 @@ module Dingtalk
         http_post("create?access_token=#{access_token}", params)
       end
 
+      def update(params)
+        http_post("update?access_token=#{access_token}", params)
+      end
+
       private
         def base_url
           'user'
