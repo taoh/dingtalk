@@ -80,6 +80,10 @@ module Dingtalk
       Api::MicroApp.new(@corp)
     end
 
+    def call_back
+      Api::CallBack.new(@corp)
+    end
+
     private
       def aes_key
         Base64.decode64(Dingtalk.suite_aes_key + '=')
