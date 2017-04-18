@@ -3,7 +3,7 @@ module Dingtalk
     class Suite < Base
       SUITE_TICKET = "suite_ticket"
       SUITE_ACCESS_TOKEN = "suite_access_token"
-      EXPIRATION = 7200
+      EXPIRATION = 6600
 
       def initialize
         @suite_key = Dingtalk.suite_key
