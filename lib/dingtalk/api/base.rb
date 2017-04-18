@@ -26,7 +26,8 @@ module Dingtalk
         key = "#{@corp.corp_id}_#{JS_TICKET}"
         res = http_get("get_jsapi_ticket?access_token=#{access_token}")
         redis.set(key, res['ticket'])
-        redis.expire(key, res['expires_in'])
+        # redis.expire(key, res['expires_in'])
+        redis.expire(key, 6600)
         redis.get(key)
       end
 
