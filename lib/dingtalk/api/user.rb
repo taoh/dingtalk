@@ -13,12 +13,12 @@ module Dingtalk
         http_get("get_by_mobile?access_token=#{access_token}&mobile=#{mobile}")
       end
 
-      def create(name, mobile, department = [1])
-        params = {
+      def create(name, mobile, department=[1], options={})
+        params = options.merge(
           name: name,
           mobile: mobile,
           department: department
-        }
+        )
         http_post("create?access_token=#{access_token}", params)
       end
 
