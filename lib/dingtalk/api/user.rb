@@ -6,11 +6,11 @@ module Dingtalk
       end
 
       def get(userid)
-        http_get("get?access_token=#{access_token}&userid=#{userid}")
+        http_get("get?access_token=#{access_token}&userid=#{URI.escape userid}")
       end
 
       def delete(userid)
-        http_get("delete?access_token=#{access_token}&userid=#{userid}")
+        http_get("delete?access_token=#{access_token}&userid=#{URI.escape userid}")
       end
 
       def get_by_mobile(mobile)
