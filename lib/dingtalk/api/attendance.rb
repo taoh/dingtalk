@@ -5,10 +5,16 @@ module Dingtalk
         http_post("list?access_token=#{access_token}", params)
       end
 
+      def list_record(params)
+        http_post("listRecord?access_token=#{access_token}", params)
+      end
+
       private
-        def base_url
-          'attendance'
-        end
+
+      def base_url
+        'attendance'
+      end
+
     end
   end
 end
