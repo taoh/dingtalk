@@ -14,7 +14,7 @@ module Dingtalk
       end
 
       def get_by_mobile(mobile)
-        http_get("get_by_mobile?access_token=#{access_token}&mobile=#{mobile}")
+        http_get("get_by_mobile?access_token=#{access_token}&mobile=#{URI.encode_www_form_component mobile}")
       end
 
       def create(name, mobile, department=[1], options={})
