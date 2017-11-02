@@ -14,12 +14,24 @@ module Dingtalk
       end
 
       def set_access_token
-        Suite.new.set_corp_access_token(@corp.corp_id, @corp.permanent_code)
+        if @corp.isv_mode?
+          Suite.new.set_corp_access_token(@corp.corp_id, @corp.permanent_code)
+        elsif !@corp.corp_secret.nil?
+          set_corp_access_token
+        end
       end
 
       def js_ticket
         ticket = redis.get("#{@corp.corp_id}_#{JS_TICKET}")
         ticket.to_s.empty? ? set_js_ticket : ticket
+      end
+
+      def set_corp_access_token
+        res = http_get("gettoken?corpid=#{@corp.corp_id}&corpsecret=#{@corp.corp_secret}")
+        key = "#{@corp.corp_id}_#{ACCESS_TOKEN}"
+        redis.set(key, res['access_token'])
+        redis.expire(key, 6600)
+        redis.get(key)
       end
 
       def set_js_ticket
