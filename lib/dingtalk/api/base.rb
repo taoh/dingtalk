@@ -30,7 +30,7 @@ module Dingtalk
         res = http_get("#{ENDPOINT}/gettoken?corpid=#{@corp.corp_id}&corpsecret=#{@corp.corp_secret}")
         key = "#{@corp.corp_id}_#{ACCESS_TOKEN}"
         redis.set(key, res['access_token'])
-        redis.expire(key, 60)
+        redis.expire(key, 6600)
         redis.get(key)
       end
 
