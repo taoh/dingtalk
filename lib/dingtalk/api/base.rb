@@ -27,7 +27,7 @@ module Dingtalk
       end
 
       def set_corp_access_token
-        res = http_get("gettoken?corpid=#{@corp.corp_id}&corpsecret=#{@corp.corp_secret}")
+        res = http_get("#{ENDPOINT}/gettoken?corpid=#{@corp.corp_id}&corpsecret=#{@corp.corp_secret}")
         key = "#{@corp.corp_id}_#{ACCESS_TOKEN}"
         redis.set(key, res['access_token'])
         redis.expire(key, 60)
@@ -36,7 +36,7 @@ module Dingtalk
 
       def set_js_ticket
         key = "#{@corp.corp_id}_#{JS_TICKET}"
-        res = http_get("get_jsapi_ticket?access_token=#{access_token}")
+        res = http_get("#{ENDPOINT}/get_jsapi_ticket?access_token=#{access_token}")
         redis.set(key, res['ticket'])
         # redis.expire(key, res['expires_in'])
         redis.expire(key, 6600)
@@ -71,7 +71,11 @@ module Dingtalk
         end
 
         def request_url(url)
-          "#{ENDPOINT}/#{base_url}/#{url}"
+          if url.start_with?('https')
+            url
+          else
+            "#{ENDPOINT}/#{base_url}/#{url}"
+          end
         end
 
         def redis
