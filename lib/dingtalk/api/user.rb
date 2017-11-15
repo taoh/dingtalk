@@ -5,6 +5,10 @@ module Dingtalk
         http_get("getuserinfo?access_token=#{access_token}&code=#{code}")
       end
 
+      def list(department=1)
+        http_get("list?access_token=#{access_token}&department_id=#{department}")
+      end
+
       def get(userid)
         http_get("get?access_token=#{access_token}&userid=#{URI.escape userid}")
       end
