@@ -1,3 +1,5 @@
+require 'json'
+
 module Dingtalk
   module Api
     class Base
