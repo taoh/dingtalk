@@ -17,6 +17,10 @@ module Dingtalk
         http_get("delete?access_token=#{access_token}&id=#{id}")
       end
 
+      def get(id)
+        http_get("get?access_token=#{access_token}&id=#{id}")
+      end
+
       private
         def base_url
           'department'
