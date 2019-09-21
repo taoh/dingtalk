@@ -1,8 +1,8 @@
 module Dingtalk
   module Api
     class Department < Base
-      def list
-        http_get("list?access_token=#{access_token}")
+      def list(parent_id = 1, fetch_child = false)
+        http_get("list?id=#{parent_id}&fetch_child=#{fetch_child}&access_token=#{access_token}")
       end
 
       def create(params)
