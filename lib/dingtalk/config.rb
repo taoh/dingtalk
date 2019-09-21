@@ -3,7 +3,7 @@ module Dingtalk
     attr_accessor :config
 
     def configure
-    yield self.config ||= Config.new
+      yield self.config ||= Config.new
     end
 
     def dingtalk_redis
@@ -37,6 +37,6 @@ module Dingtalk
   end
 
   class Config
-    attr_accessor :redis, :redis_options, :suite_key, :suite_secret, :suite_aes_key, :suite_token, :sns_app_id, :sns_app_secret
+    attr_accessor :redis, :redis_prefix, :redis_options, :suite_key, :suite_secret, :suite_aes_key, :suite_token, :sns_app_id, :sns_app_secret
   end
 end

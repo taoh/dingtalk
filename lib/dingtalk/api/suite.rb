@@ -18,7 +18,7 @@ module Dingtalk
       end
 
       def suite_access_token
-        token = redis.get(SUITE_ACCESS_TOKEN)
+        token = redis.get("#{redis_prefix}:#{SUITE_ACCESS_TOKEN}")
         token.to_s.empty? ? set_suite_access_token : token
       end
 
@@ -30,9 +30,8 @@ module Dingtalk
         }
         res = http_post('get_suite_token', params)
         # TODO globally check response values
-        redis.set(SUITE_ACCESS_TOKEN, res['suite_access_token'])
-        redis.expire(SUITE_ACCESS_TOKEN, EXPIRATION)
-        redis.get(SUITE_ACCESS_TOKEN)
+        redis.set("#{redis_prefix}:#{SUITE_ACCESS_TOKEN}", res['suite_access_token'], {ex: EXPIRATION})
+        res['suite_access_token']
       end
 
       def set_corp_access_token(corp_id, permanent_code)
@@ -41,9 +40,8 @@ module Dingtalk
           auth_corpid: corp_id
         }
         res = http_post("get_corp_token?suite_access_token=#{suite_access_token}", params)
-        redis.set("#{corp_id}_#{ACCESS_TOKEN}", res['access_token'])
-        redis.expire("#{corp_id}_#{ACCESS_TOKEN}", EXPIRATION)
-        redis.get("#{corp_id}_#{ACCESS_TOKEN}")
+        redis.set("#{redis_prefix}:#{corp_id}_#{ACCESS_TOKEN}", res['access_token'], {ex: EXPIRATION})
+        res['access_token']
       end
 
       def activate_suite(corp_id, permanent_code)
@@ -66,7 +64,7 @@ module Dingtalk
       end
 
       def suite_ticket
-        redis.get(SUITE_TICKET)
+        redis.get("#{redis_prefix}:#{SUITE_TICKET}")
       end
 
       private

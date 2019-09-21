@@ -11,7 +11,7 @@ module Dingtalk
       end
 
       def access_token
-        token = redis.get("#{@corp.corp_id}_#{ACCESS_TOKEN}")
+        token = redis.get("#{redis_prefix}:#{@corp.corp_id}_#{ACCESS_TOKEN}")
         token.to_s.empty? ? set_access_token : token
       end
 
@@ -24,25 +24,26 @@ module Dingtalk
       end
 
       def js_ticket
-        ticket = redis.get("#{@corp.corp_id}_#{JS_TICKET}")
+        ticket = redis.get("#{redis_prefix}:#{@corp.corp_id}_#{JS_TICKET}")
         ticket.to_s.empty? ? set_js_ticket : ticket
       end
 
       def set_corp_access_token
         res = http_get("#{ENDPOINT}/gettoken?corpid=#{@corp.corp_id}&corpsecret=#{@corp.corp_secret}")
-        key = "#{@corp.corp_id}_#{ACCESS_TOKEN}"
-        redis.set(key, res['access_token'])
-        redis.expire(key, 6600)
-        redis.get(key)
+        key = "#{redis_prefix}:#{@corp.corp_id}_#{ACCESS_TOKEN}"
+        redis.set(key, res['access_token'], {ex: 6600})
+        res['access_token']
       end
 
       def set_js_ticket
-        key = "#{@corp.corp_id}_#{JS_TICKET}"
+        key = "#{redis_prefix}:#{@corp.corp_id}_#{JS_TICKET}"
         res = http_get("#{ENDPOINT}/get_jsapi_ticket?access_token=#{access_token}")
-        redis.set(key, res['ticket'])
-        # redis.expire(key, res['expires_in'])
-        redis.expire(key, 6600)
-        redis.get(key)
+        redis.set(key, res['ticket'], {ex: 6600})
+        res['ticket']
+      end
+
+      def redis_prefix
+        Dingtalk.config.redis_prefix || 'dingtalk'
       end
 
       private

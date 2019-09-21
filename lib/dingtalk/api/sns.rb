@@ -9,15 +9,14 @@ module Dingtalk
       end
 
       def access_token
-        token = redis.get(ACCESS_TOKEN)
+        token = redis.get("#{redis_prefix}:#{ACCESS_TOKEN}")
         token.to_s.empty? ? set_access_token : token
       end
 
       def set_access_token
         res = http_get("gettoken?appid=#{@app_id}&appsecret=#{@app_secret}")
-        redis.set(ACCESS_TOKEN, res['access_token'])
-        redis.expire(ACCESS_TOKEN, 6600)
-        redis.get(ACCESS_TOKEN)
+        redis.set("#{redis_prefix}:#{ACCESS_TOKEN}", res['access_token'], {ex: 6600})
+        res['access_token']
       end
 
       def get_persistent_code(code)
