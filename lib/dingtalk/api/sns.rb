@@ -37,6 +37,10 @@ module Dingtalk
         http_get("getuserinfo?sns_token=#{sns_token}")
       end
 
+      def get_user_info_by_code(code)
+        http_post("getuserinfo_bycode", {tmp_auth_code: code})
+      end
+
       private
         def default_params
           {}
