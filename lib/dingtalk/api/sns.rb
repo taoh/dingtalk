@@ -38,7 +38,7 @@ module Dingtalk
       end
 
       def get_user_info_by_code(code)
-        http_post("getuserinfo_bycode", {tmp_auth_code: code})
+        http_post("getuserinfo_bycode?access_token=#{access_token}", {tmp_auth_code: code})
       end
 
       private
